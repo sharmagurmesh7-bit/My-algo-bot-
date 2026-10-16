@@ -2,85 +2,111 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TOPU TOWER - FINAL LIVE</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOPU TOWER - SAFE TOKEN</title>
 <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
 <style>
 body{margin:0;background:#000;color:#fff;font-family:Arial}
-.top{background:#000;border-bottom:3px solid gold;padding:8px;text-align:center;position:sticky;top:0;z-index:99}
-#ticker{display:flex;gap:6px;overflow-x:auto;padding:4px}
-.tick{background:#111;border:1px solid #333;padding:6px 12px;border-radius:20px;font-size:13px;white-space:nowrap}
-#ltp{font-size:28px;color:#00ff00;font-weight:bold;margin:5px}
-.signal{padding:12px;border-radius:10px;font-weight:bold;font-size:18px;margin:6px}
+.top{padding:10px;text-align:center;border-bottom:3px solid gold;position:sticky;top:0;background:#000;z-index:99}
+#ticker{display:flex;gap:6px;overflow-x:auto;padding:5px}
+.tick{background:#111;border:1px solid #333;padding:6px 12px;border-radius:20px;font-size:13px;white-space:nowrap;color:#0f0}
+#ltp{font-size:26px;color:#00ff00;font-weight:bold;margin:5px}
+.signal{padding:12px;border-radius:8px;font-weight:bold;text-align:center;margin:6px}
 .BUY{background:#00c853;color:#000}.SELL{background:#ff1744;color:#fff}.WAIT{background:#222;color:#aaa}
-#chart{height:500px}
-.box{margin:8px;padding:10px;background:#111;border-radius:8px;border:1px solid #333}
-select{width:100%;padding:12px;background:#000;color:#0f0;border:1px solid gold;border-radius:6px}
+#chart{height:450px}
+.box{margin:8px;padding:12px;background:#111;border:1px solid #333;border-radius:10px}
+input,select{width:100%;padding:12px;background:#000;color:#0f0;border:1px solid gold;border-radius:6px;box-sizing:border-box}
 .btn{width:100%;padding:12px;background:gold;color:#000;font-weight:bold;border:none;border-radius:6px;margin-top:8px}
 </style>
 </head>
 <body>
 <div class="top">
-<div style="color:gold;font-weight:bold">WORLD NO.1 TOPU TOWER - ORIGINAL LIVE ✓</div>
-<div id="ticker">LOADING LIVE...</div>
-<div id="ltp">CONNECTING TO UPSTOX...</div>
-<div id="signal" class="signal WAIT">LIVE ANALYSIS...</div>
+<div style="color:gold;font-weight:bold">WORLD NO.1 TOPU TOWER - SAFE</div>
+<div id="ticker">TOKEN DALO - LIVE START HOGA</div>
+<div id="ltp">READY TO START ✓</div>
+<div id="signal" class="signal WAIT">WAIT - TOKEN KA INTEZAR</div>
+</div>
+
+<!-- YEH RAHA BAHAR WALA TOKEN BOX - SAFE -->
+<div class="box" style="border:2px solid gold">
+<div style="color:gold;font-weight:bold;margin-bottom:6px">🔐 TOKEN DASHBOARD - YAHAN PASTE KARO (SAFE)</div>
+<input id="tokenInput" type="text" placeholder="eyJ... wala token yahan paste karo">
+<button class="btn" onclick="saveToken()">SAVE & RUN LIVE</button>
+<button class="btn" style="background:#222;color:#fff" onclick="clearToken()">TOKEN HATAO / LOGOUT</button>
+<div style="font-size:10px;color:#888;margin-top:6px">Token sirf tere mobile me save hoga, code me nahi jayega. 100% Safe.</div>
 </div>
 
 <div class="box">
-<select id="mainSel" onchange="loadChart()">
+<select id="mainSel">
 <option value="BSE_INDEX|SENSEX">SENSEX</option>
 <option value="NSE_INDEX|Nifty 50">NIFTY 50</option>
 <option value="NSE_INDEX|Nifty Bank">BANK NIFTY</option>
 <option value="NSE_EQ|INE040A01034">HDFC BANK</option>
 <option value="NSE_EQ|INE002A01018">RELIANCE</option>
 </select>
-<select id="intervalSel" style="margin-top:6px" onchange="loadChart()">
-<option value="1minute">1 MIN</option>
-<option value="5minute" selected>5 MIN</option>
-<option value="day">DAY</option>
-</select>
+<div style="display:flex;gap:6px;margin-top:6px">
+<select id="intervalSel"><option value="1minute">1M</option><option value="5minute" selected>5M</option></select>
+<button onclick="loadChart()" style="flex:1;background:gold;border:none;border-radius:6px;font-weight:bold">LOAD CHART</button>
+</div>
 </div>
 
 <div id="chart"></div>
 
-<div class="box" style="text-align:center;font-size:11px;color:#888">
-ORIGINAL UPSTOX LIVE | Token auto-loaded | Expires 18 Oct | No Demo
-</div>
-
 <script>
-// TERA TOKEN DIRECT CODE ME DAAL DIYA - AB BOX KI ZAROORAT NAHI
-const TOKEN="eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4Q0JSR0giLCJqdGkiOiI2YWQxODYzNDMzOGY3YjA2ODdlZGI2NGYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc5MjExNjI3NiwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzkyMTg4MDAwfQ.QgnwsB1gg6u4Od6JOOTz_sDjrkXajWeFVK_YdehHQzo";
-
+let TOKEN=localStorage.getItem('TOPU_TOKEN')||'';
+document.getElementById('tokenInput').value=TOKEN;
 let chart,candleSeries;
+
+function saveToken(){
+ let t=document.getElementById('tokenInput').value.trim();
+ if(t.length<20){alert('Sahi token paste kar!');return;}
+ localStorage.setItem('TOPU_TOKEN',t);
+ TOKEN=t;
+ alert('TOKEN SAVE HO GAYA! AB LIVE CHALEGA');
+ location.reload();
+}
+function clearToken(){
+ localStorage.removeItem('TOPU_TOKEN');
+ document.getElementById('tokenInput').value='';
+ alert('TOKEN HATA DIYA');
+ location.reload();
+}
+
 function init(){
  chart=LightweightCharts.createChart(document.getElementById('chart'),{layout:{background:{color:'#000'},textColor:'#fff'},grid:{vertLines:{color:'#222'},horzLines:{color:'#222'}}});
  candleSeries=chart.addCandlestickSeries({upColor:'#00ff00',downColor:'#ff1744'});
- fetchAll(); loadChart();
- setInterval(fetchAll,2000);
+ if(TOKEN){
+   fetchAll();
+   setInterval(fetchAll,2000);
+   loadChart();
+ } else {
+   document.getElementById('ltp').innerText='TOKEN DALO UPAR BOX ME';
+ }
 }
 
 async function fetchAll(){
- let ALL="BSE_INDEX|SENSEX,NSE_INDEX|Nifty 50,NSE_INDEX|Nifty Bank,NSE_INDEX|Nifty Fin Service,NSE_EQ|INE040A01034,NSE_EQ|INE002A01018";
+ let ALL="BSE_INDEX|SENSEX,NSE_INDEX|Nifty 50,NSE_INDEX|Nifty Bank";
  try{
   let url=`https://api.upstox.com/v2/market-quote/ltp?instrument_key=${encodeURIComponent(ALL)}`;
   let r=await fetch(url,{headers:{'Authorization':'Bearer '+TOKEN}});
   let j=await r.json();
   if(j.status==='success'){
-   let html=''; let mainPrice='';
+   let html='';
    for(let k in j.data){
     let p=j.data[k].last_price;
-    let shortName=k.includes('SENSEX')?'SENSEX':k.includes('Nifty Bank')?'BANK':k.includes('Nifty 50')?'NIFTY':k.includes('Fin')?'FIN':k.split('|').pop().substring(0,8);
-    html+=`<div class="tick">${shortName} ${p} ✓</div>`;
-    if(k.includes('SENSEX')) mainPrice=`SENSEX ${p} LIVE ✓`;
+    let name=k.includes('SENSEX')?'SENSEX':k.includes('Bank')?'BANK':k.includes('50')?'NIFTY':k;
+    html+=`<div class="tick">${name} ${p} LIVE ✓</div>`;
    }
    document.getElementById('ticker').innerHTML=html;
-   if(mainPrice) document.getElementById('ltp').innerText=mainPrice;
+   document.getElementById('ltp').innerText='LIVE CONNECTED ✓';
+  } else {
+   document.getElementById('ltp').innerText='TOKEN EXPIRE - NAYA DALO';
   }
- }catch(e){ document.getElementById('ltp').innerText='NETWORK WAIT...'; }
+ }catch(e){}
 }
 
 async function loadChart(){
+ if(!TOKEN){alert('Pehle upar token paste kar!');return;}
  let inst=document.getElementById('mainSel').value;
  let interval=document.getElementById('intervalSel').value;
  let to=new Date().toISOString().split('T')[0];
@@ -94,8 +120,8 @@ async function loadChart(){
    candleSeries.setData(data);
    let last=data[data.length-1];
    let sig=document.getElementById('signal');
-   if(last.close>last.open){sig.className='signal BUY'; sig.innerText=`🚀 BUY - ${inst.split('|').pop()} GREEN LIVE`;}
-   else{sig.className='signal SELL'; sig.innerText=`🔻 SELL - ${inst.split('|').pop()} RED LIVE`;}
+   if(last.close>last.open){sig.className='signal BUY';sig.innerText='🚀 BUY LIVE - '+inst.split('|').pop();}
+   else{sig.className='signal SELL';sig.innerText='🔻 SELL LIVE - '+inst.split('|').pop();}
   }
  }catch(e){}
 }
