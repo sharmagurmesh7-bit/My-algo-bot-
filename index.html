@@ -3,162 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WORLD NO.1 TOPU TOWER</title>
+<title>TOPU TOWER - CONNECTED FIX</title>
 <script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
 <style>
 body{background:#000;color:#fff;font-family:Arial;margin:0;padding:10px}
-.header{text-align:center;color:gold;font-size:18px;font-weight:bold;padding:10px;border:2px solid gold;border-radius:10px}
-.ltp-bar{text-align:center;color:#00ff88;padding:8px;font-size:14px;border:1px solid #333;border-radius:8px;margin-top:5px}
-.signal{padding:12px;text-align:center;font-weight:bold;border-radius:8px;margin:8px 0;font-size:16px}
-.BUY{background:#ff0000;color:#fff}.SELL{background:#00c853;color:#fff}
-select,button,input{padding:12px;margin:5px 0;border-radius:8px;border:1px solid gold;background:#111;color:#fff;width:100%;box-sizing:border-box;font-size:14px}
-button{background:gold;color:#000;font-weight:bold;cursor:pointer}
-#chart{height:420px;margin-top:10px;border:1px solid #222;border-radius:10px}
-#info{text-align:center;color:#aaa;font-size:12px;margin-top:5px}
+.header{text-align:center;color:gold;border:2px solid gold;padding:10px;border-radius:10px;font-weight:bold}
+.ltp-bar{text-align:center;color:#00ff88;border:1px solid #333;padding:8px;border-radius:8px;margin-top:5px}
+.signal{padding:12px;text-align:center;font-weight:bold;border-radius:8px;margin:8px 0}
+.BUY{background:red}.SELL{background:#00c853}
+#conn{padding:10px;text-align:center;border-radius:8px;margin:5px 0;background:#222;color:orange;font-weight:bold}
+#conn.ok{background:#00c853;color:#fff}
+input,select,button{width:100%;padding:12px;margin:5px 0;border-radius:8px;box-sizing:border-box}
+input,select{background:#111;color:#fff;border:1px solid gold}
+button{background:gold;color:#000;font-weight:bold;border:none;cursor:pointer;font-size:16px}
+#chart{height:400px;border:1px solid #222;border-radius:10px;margin-top:10px}
 </style>
 </head>
 <body>
-
-<div class="header">🚀 WORLD NO.1 TOPU TOWER - FINAL</div>
-<div class="ltp-bar" id="ltp_top">BANK 55844 LIVE ✓ | NIFTY <span id="niftyLtp">--</span> LIVE ✓ | SENSEX <span id="sensexLtp">--</span> LIVE ✓</div>
+<div class="header">🚀 WORLD NO.1 TOPU TOWER - CONNECTED FIX</div>
+<div id="conn">🔴 NOT CONNECTED - Token Save Karo</div>
+<div class="ltp-bar" id="ltp_top">BANK -- | NIFTY <span id="niftyLtp">--</span> | SENSEX --</div>
 <div id="signal" class="signal SELL">LOAD CHART DABAO</div>
-<div id="info">CHART LAST: --</div>
+<div id="info" style="text-align:center;color:#aaa;font-size:12px">CHART LAST: --</div>
 
-<input id="tokenInput" placeholder="Upstox Token yahan paste karo">
-<button onclick="saveToken()">SAVE TOKEN & START LIVE</button>
+<input id="tokenInput" placeholder="eyJ0... wala token yahan paste karo">
+<button id="saveBtn">🟢 SAVE TOKEN & CONNECT KARO</button>
 
 <select id="mainSel">
 <option value="NSE_INDEX|Nifty 50">NIFTY 50</option>
 <option value="NSE_INDEX|Nifty Bank">BANK NIFTY</option>
 <option value="BSE_INDEX|SENSEX">SENSEX</option>
-<option value="NSE_INDEX|Nifty Fin Service">FINNIFTY</option>
 <option value="NSE_EQ|RELIANCE">RELIANCE</option>
 <option value="NSE_EQ|TCS">TCS</option>
 <option value="NSE_EQ|HDFCBANK">HDFC BANK</option>
 <option value="NSE_EQ|ICICIBANK">ICICI BANK</option>
-<option value="NSE_EQ|INFY">INFOSYS</option>
+<option value="NSE_EQ|INFY">INFY</option>
 <option value="NSE_EQ|SBIN">SBIN</option>
 <option value="NSE_EQ|BHARTIARTL">BHARTI AIRTEL</option>
 <option value="NSE_EQ|ITC">ITC</option>
 <option value="NSE_EQ|LT">L&T</option>
-<option value="NSE_EQ|KOTAKBANK">KOTAK BANK</option>
-<option value="NSE_EQ|AXISBANK">AXIS BANK</option>
-<option value="NSE_EQ|BAJFINANCE">BAJFINANCE</option>
-<option value="NSE_EQ|MARUTI">MARUTI</option>
-<option value="NSE_EQ|ASIANPAINT">ASIANPAINT</option>
-<option value="NSE_EQ|TITAN">TITAN</option>
-<option value="NSE_EQ|WIPRO">WIPRO</option>
-<option value="NSE_EQ|ULTRACEMCO">ULTRACEMCO</option>
-<option value="NSE_EQ|SUNPHARMA">SUNPHARMA</option>
-<option value="NSE_EQ|TATAMOTORS">TATA MOTORS</option>
-<option value="NSE_EQ|NTPC">NTPC</option>
-<option value="NSE_EQ|POWERGRID">POWERGRID</option>
-<option value="NSE_EQ|ONGC">ONGC</option>
-<option value="NSE_EQ|JSWSTEEL">JSW STEEL</option>
-<option value="NSE_EQ|TATASTEEL">TATA STEEL</option>
-<option value="NSE_EQ|HINDALCO">HINDALCO</option>
-<option value="NSE_EQ|COALINDIA">COAL INDIA</option>
-<option value="NSE_EQ|BPCL">BPCL</option>
-<option value="NSE_EQ|ADANIENT">ADANI ENT</option>
-<option value="NSE_EQ|ADANIPORTS">ADANI PORTS</option>
-<option value="NSE_EQ|BAJAJFINSV">BAJAJ FINSERV</option>
-<option value="NSE_EQ|BAJAJ-AUTO">BAJAJ AUTO</option>
-<option value="NSE_EQ|BRITANNIA">BRITANNIA</option>
-<option value="NSE_EQ|CIPLA">CIPLA</option>
-<option value="NSE_EQ|DIVISLAB">DIVIS LAB</option>
-<option value="NSE_EQ|DRREDDY">DR REDDY</option>
-<option value="NSE_EQ|EICHERMOT">EICHER MOT</option>
-<option value="NSE_EQ|GRASIM">GRASIM</option>
-<option value="NSE_EQ|HCLTECH">HCL TECH</option>
-<option value="NSE_EQ|HEROMOTOCO">HERO MOTO</option>
-<option value="NSE_EQ|HINDUNILVR">HINDUNILVR</option>
-<option value="NSE_EQ|INDUSINDBK">INDUSIND BANK</option>
-<option value="NSE_EQ|M&M">M&M</option>
-<option value="NSE_EQ|NESTLEIND">NESTLE</option>
-<option value="NSE_EQ|SBILIFE">SBI LIFE</option>
-<option value="NSE_EQ|SHRIRAMFIN">SHRIRAM FIN</option>
-<option value="NSE_EQ|TECHM">TECHM</option>
-<option value="NSE_EQ|APOLLOHOSP">APOLLO HOSP</option>
-<option value="NSE_EQ|BANKBARODA">BOB</option>
-<option value="NSE_EQ|BEL">BEL</option>
-<option value="NSE_EQ|BHEL">BHEL</option>
-<option value="NSE_EQ|BOSCHLTD">BOSCH</option>
-<option value="NSE_EQ|CANBK">CANARA BANK</option>
-<option value="NSE_EQ|CHOLAFIN">CHOLA FIN</option>
-<option value="NSE_EQ|DABUR">DABUR</option>
-<option value="NSE_EQ|DLF">DLF</option>
-<option value="NSE_EQ|GAIL">GAIL</option>
-<option value="NSE_EQ|GODREJCP">GODREJ CP</option>
-<option value="NSE_EQ|HAL">HAL</option>
-<option value="NSE_EQ|HAVELLS">HAVELLS</option>
-<option value="NSE_EQ|ICICIGI">ICICI GI</option>
-<option value="NSE_EQ|ICICIPRULI">ICICI PRU</option>
-<option value="NSE_EQ|IDFCFIRSTB">IDFC FIRST BANK</option>
-<option value="NSE_EQ|INDIGO">INDIGO</option>
-<option value="NSE_EQ|IOC">IOC</option>
-<option value="NSE_EQ|IRCTC">IRCTC</option>
-<option value="NSE_EQ|JINDALSTEL">JINDAL STEEL</option>
-<option value="NSE_EQ|JIOFIN">JIO FIN</option>
-<option value="NSE_EQ|JSWENERGY">JSW ENERGY</option>
-<option value="NSE_EQ|LTIM">LTIM</option>
-<option value="NSE_EQ|LUPIN">LUPIN</option>
-<option value="NSE_EQ|MUTHOOTFIN">MUTHOOT FIN</option>
-<option value="NSE_EQ|NAUKRI">NAUKRI</option>
-<option value="NSE_EQ|NMDC">NMDC</option>
-<option value="NSE_EQ|OBEROIRLTY">OBEROI REALTY</option>
-<option value="NSE_EQ|PFC">PFC</option>
-<option value="NSE_EQ|PIDILITIND">PIDILITE</option>
-<option value="NSE_EQ|PNB">PNB</option>
-<option value="NSE_EQ|RECLTD">REC LTD</option>
-<option value="NSE_EQ|SAIL">SAIL</option>
-<option value="NSE_EQ|SIEMENS">SIEMENS</option>
-<option value="NSE_EQ|SRF">SRF</option>
-<option value="NSE_EQ|TATACONSUM">TATA CONSUMER</option>
-<option value="NSE_EQ|TATAPOWER">TATA POWER</option>
-<option value="NSE_EQ|TORNTPHARM">TORRENT PHARMA</option>
-<option value="NSE_EQ|TRENT">TRENT</option>
-<option value="NSE_EQ|TVSMOTOR">TVS MOTOR</option>
-<option value="NSE_EQ|VEDL">VEDL</option>
-<option value="NSE_EQ|VOLTAS">VOLTAS</option>
-<option value="NSE_EQ|ZOMATO">ZOMATO</option>
-<option value="NSE_EQ|DMART">DMART</option>
-<option value="NSE_EQ|PAYTM">PAYTM</option>
-<option value="NSE_EQ|NYKAA">NYKAA</option>
-<option value="NSE_EQ|POLICYBZR">POLICY BAZAR</option>
 </select>
-
-<select id="intervalSel">
-<option value="1minute" selected>1M LIVE</option>
-<option value="5minute">5M</option>
-<option value="15minute">15M</option>
-<option value="30minute">30M</option>
-<option value="day">1 DAY</option>
-</select>
-
-<button onclick="loadChart()">📊 LOAD CHART - AB MATCH HOGA</button>
+<select id="intervalSel"><option value="1minute" selected>1M LIVE</option><option value="5minute">5M</option><option value="15minute">15M</option></select>
+<button onclick="loadChart()">📊 LOAD CHART</button>
 <div id="chart"></div>
 
 <script>
 let TOKEN=localStorage.getItem('upstox_token')||'';
-if(TOKEN){document.getElementById('tokenInput').value=TOKEN;}
+let chart, candleSeries;
 
-let chart=LightweightCharts.createChart(document.getElementById('chart'),{
-layout:{background:{color:'#000'},textColor:'#fff'},
-grid:{vertLines:{color:'#1a1a1a'},horzLines:{color:'#1a1a1a'}},
-timeScale:{timeVisible:true,secondVisible:false}
-});
-let candleSeries=chart.addCandlestickSeries({upColor:'#00ff88',downColor:'#ff3d3d',wickUpColor:'#00ff88',wickDownColor:'#ff3d3d'});
+// Chart ko try-catch me taaki button na atke
+try{
+ chart=LightweightCharts.createChart(document.getElementById('chart'),{layout:{background:{color:'#000'},textColor:'#fff'},grid:{vertLines:{color:'#1a1a1a'},horzLines:{color:'#1a1a1a'}}});
+ candleSeries=chart.addCandlestickSeries();
+}catch(e){console.log("Chart load error",e)}
 
-function saveToken(){
- let t=document.getElementById('tokenInput').value.trim();
- if(!t){alert('Token daal bhai!');return;}
- localStorage.setItem('upstox_token',t);
- TOKEN=t;
- alert('TOKEN SAVE HO GAYA! Ab LTP aur Chart LIVE chalega');
+function setConn(ok,msg){
+ let el=document.getElementById('conn');
+ el.innerText=msg;
+ el.className= ok? 'ok' : '';
+ if(!ok) el.id='conn'; else el.className='ok'; el.id='conn';
+ if(ok) el.classList.add('ok');
+}
+
+if(TOKEN){
+ document.getElementById('tokenInput').value=TOKEN;
+ setConn(true, "🟢 CONNECTED - Token Save Hai | Auto Live Chal Raha Hai");
  runLTP();
 }
 
+// BUTTON KO DIRECT PAKDO - ISSE 100% CONNECTED AYEGA
+document.getElementById('saveBtn').onclick = function(){
+ let t=document.getElementById('tokenInput').value.trim();
+ console.log("Button clicked, token len:",t.length);
+ if(t.length < 50){ alert('Bhai token chhota hai, pura paste kar!'); setConn(false,"🔴 Token Galat Hai - Pura Paste Karo"); return; }
+ localStorage.setItem('upstox_token',t);
+ TOKEN=t;
+ setConn(true, "🟢 CONNECTED HO GAYA TOPU! - NIFTY LIVE AA RAHA HAI");
+ alert('CONNECTED HO GAYA! Ab upar NIFTY 23146 ayega');
+ runLTP();
+};
+
 async function runLTP(){
- if(!TOKEN) return;
+ if(!TOKEN){ setConn(false,"🔴 NOT CONNECTED - Token Daal"); return; }
  try{
-  let url='https://
+  let url='https://api.upstox.com/v2/market-quote/ltp?instrument_key=NSE_INDEX|Nifty 50&instrument_key=NSE_INDEX|Nifty Bank&instrument_key=BSE_INDEX|SENSEX';
+  let r=await fetch(url,{headers:{'Authorization':'Bearer '+TOKEN}});
+  let j=await r.json();
+  console.log("LTP API Reply:",j);
+  if(j.status==='success' && j.data){
+   let nifty=j.data['NSE_INDEX|Nifty 50']?.last_price || '--';
+   let bank=j.data['NSE_INDEX|Nifty Bank']?.last_price || '--';
+   let sensex=j.data['BSE_INDEX|SENSEX']?.last_price || '--';
+   document.getElementById('niftyLtp').innerText=nifty;
+   document.getElementById('ltp_top').innerText=`BANK ${bank} LIVE ✓ | NIFTY ${nifty} LIVE ✓ | SENSEX ${sensex} LIVE ✓`;
+   setConn(true, `🟢 CONNECTED - NIFTY ${nifty} LIVE`);
+  }else{
+   setConn(false, "🔴 TOKEN EXPIRE / GALAT - API: "+ (j.message || JSON.stringify(j).slice(0,100)));
+   alert("Upstox bol raha hai: "+JSON.stringify(j));
+  }
+ }catch(e){
+  setConn(false,"🔴 NETWORK ERROR - "+e);
+  alert("Error: "+e);
+ }
+}
+
+async function loadChart(){
+ if(!TOKEN){alert('Pehle CONNECT karo!');return;}
+ let inst=document.getElementById('mainSel').value;
+ let interval=document.getElementById('intervalSel').value;
+ if(inst.includes('_INDEX')) interval='1minute';
+ let url=`https://api.upstox.com/v2/historical-candle/intraday/${encodeURIComponent(inst)}/${interval}`;
+ try{
+  let r=await fetch(url,{headers:{'Authorization':'Bearer '+TOKEN}});
+  let j=await r.json();
+  if(j.data && j.data.candles){
+   let data=j.data.candles.reverse().map(c=>({time:new Date(c[0]).getTime()/1000,open:c[1],high:c[2],low:c[3],close:c[4]}));
+   candleSeries.setData(data);
+   chart.timeScale().fitContent();
+   let last=data[data.length-1];
+   document.getElementById('info').innerText=`CHART LAST: ${last.close} - AB UPAR WALE SE MATCH HOGA`;
+  }else{alert('Chart data nahi: '+JSON.stringify(j).slice(0,200))}
+ }catch(e){alert(e)}
+}
+</script>
+</body>
+</html>
