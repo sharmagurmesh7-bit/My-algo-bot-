@@ -3,218 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TOPU TOWER - VALUE CHANGE</title>
+<title>TOPU TOWER - OPTION PREMIUM</title>
 <script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
 <style>
-body{background:#000;color:#fff;font-family:Arial;margin:0;padding:8px}
+body{background:#000;color:#fff;font-family:Arial;margin:0;padding:6px}
 .header{text-align:center;color:gold;border:2px solid gold;padding:10px;border-radius:10px;font-weight:bold}
-#conn{padding:10px;text-align:center;border-radius:8px;margin:5px 0;background:#222;color:orange;font-weight:bold}
+#conn{padding:8px;text-align:center;border-radius:8px;margin:5px 0;background:#222;color:orange}
 #conn.ok{background:#00c853;color:#fff}
-.ltp-bar{text-align:center;color:#00ff88;border:1px solid #333;padding:8px;border-radius:8px;font-size:12px}
-.signal{padding:14px;text-align:center;font-weight:bold;border-radius:8px;margin:8px 0;font-size:16px}
+.ltp-bar{text-align:center;color:#00ff88;border:1px solid #333;padding:6px;border-radius:8px;font-size:12px}
+.chainBox{background:#111;border:1px solid #333;border-radius:10px;padding:8px;margin:8px 0;max-height:300px;overflow:auto}
+.strikeRow{display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #222;font-size:13px}
+.strikeRow:hover{background:#1a1a1a}
+.ce{color:#00ff88}.pe{color:#ff3d3d}
+.selected{background:gold!important;color:#000!important;font-weight:bold}
+.signal{padding:12px;text-align:center;font-weight:bold;border-radius:8px;margin:6px 0}
 .BUY{background:#ff1744}.SELL{background:#00c853}.HOLD{background:#333}
-.setting{background:#111;border:1px solid gold;border-radius:10px;padding:10px;margin:8px 0}
-.setting h3{color:gold;margin:0 0 8px 0;text-align:center;font-size:14px}
-.row{display:flex;gap:6px;margin:4px 0}
-.row label{flex:1;font-size:12px;color:#aaa}
-.row input{flex:1;padding:8px;background:#000;color:#fff;border:1px solid #333;border-radius:6px}
-.indi{display:flex;gap:5px;margin:5px 0}
-.indi div{flex:1;background:#111;border:1px solid #222;padding:8px;border-radius:6px;text-align:center;font-size:11px}
-.indi b{color:gold}
-input,select,button{width:100%;padding:12px;margin:4px 0;border-radius:8px;box-sizing:border-box}
-select{background:#111;color:#fff;border:1px solid gold}
-button{background:gold;color:#000;font-weight:bold;border:none;cursor:pointer}
-#chart{height:400px;border:1px solid #222;border-radius:10px;margin-top:8px}
+.orderBox{background:#0a0a0a;border:2px solid #00ff88;border-radius:12px;padding:10px;margin:8px 0}
+.orderBtns{display:flex;gap:8px}
+.orderBtns button{flex:1;padding:12px;font-weight:bold;border-radius:8px;border:none}
+.btnBuy{background:#00c853;color:#fff}.btnSell{background:#ff1744;color:#fff}
+input,select,button{width:100%;padding:10px;margin:4px 0;border-radius:8px;box-sizing:border-box}
+select,input{background:#111;color:#fff;border:1px solid gold}
+#chart{height:350px;border:1px solid #222;border-radius:10px}
 </style>
 </head>
 <body>
-<div class="header">🚀 TOPU TOWER - EMA VALUE CHANGE SYSTEM</div>
+<div class="header">🚀 TOPU TOWER - OPTION PREMIUM LTP + CHAIN</div>
 <div id="conn">🔴 NOT CONNECTED</div>
-<div class="ltp-bar" id="ltp_top">BANK -- | NIFTY -- | SENSEX --</div>
+<div class="ltp-bar" id="ltp_top">NIFTY -- | BANK -- | SENSEX --</div>
 
-<div id="signal" class="signal HOLD">LOAD CHART DABAO - SIGNAL AYEGA</div>
-
-<!-- EMA VALUE CHANGE KA SYSTEM WAPAS -->
-<div class="setting">
-<h3>⚙️ INDICATOR VALUE CHANGE - YAHAN SE BADHAO GHATAO</h3>
-<div class="row">
-<label>EMA Fast (Index=9, Stock=20)</label>
-<input id="emaFastInput" type="number" value="9">
-</div>
-<div class="row">
-<label>EMA Slow (Index=21, Stock=50)</label>
-<input id="emaSlowInput" type="number" value="21">
-</div>
-<div class="row">
-<label>EMA Long (Stock=100/200)</label>
-<input id="emaLongInput" type="number" value="50">
-</div>
-<div class="row">
-<label>RSI Period (Default 14)</label>
-<input id="rsiInput" type="number" value="14">
-</div>
-<button onclick="loadChart()" style="background:#00ff88;margin-top:8px">✅ VALUE SET KARO & CHART RELOAD</button>
-</div>
-
-<div class="indi">
-<div>EMA <span id="labelFast">9</span><br><b id="ema9">--</b></div>
-<div>EMA <span id="labelSlow">21</span><br><b id="ema21">--</b></div>
-<div>EMA <span id="labelLong">50</span><br><b id="emaLong">--</b></div>
-<div>RSI <span id="labelRsi">14</span><br><b id="rsi">--</b></div>
-</div>
-
-<input id="tokenInput" placeholder="Token paste kar" style="background:#111;color:#fff;border:1px solid gold;padding:12px;border-radius:8px;width:100%;box-sizing:border-box">
+<input id="tokenInput" placeholder="Token paste kar (Market + Order)">
 <button id="saveBtn">🟢 SAVE & CONNECT</button>
 
-<select id="mainSel">
-<option value="NSE_INDEX|Nifty 50">NIFTY 50 - INDEX</option>
-<option value="NSE_INDEX|Nifty Bank">BANK NIFTY - INDEX</option>
-<option value="BSE_INDEX|SENSEX">SENSEX - INDEX</option>
-<option value="NSE_INDEX|Nifty Fin Service">FINNIFTY - INDEX</option>
-<option value="NSE_EQ|INE002A01018">RELIANCE - STOCK</option>
-<option value="NSE_EQ|INE467B01029">TCS - STOCK</option>
-<option value="NSE_EQ|INE040A01034">HDFC BANK - STOCK</option>
-<option value="NSE_EQ|INE090A01021">ICICI BANK - STOCK</option>
-<option value="NSE_EQ|INE009A01021">INFY - STOCK</option>
-<option value="NSE_EQ|INE062A01020">SBIN - STOCK</option>
-<option value="NSE_EQ|INE397D01024">BHARTI AIRTEL</option>
-<option value="NSE_EQ|INE154A01025">ITC</option>
-<option value="NSE_EQ|INE758T01015">ZOMATO</option>
-<option value="NSE_EQ|INE192R01011">DMART</option>
+<div style="display:flex;gap:5px">
+<select id="indexSel">
+<option value="NSE_INDEX|Nifty 50">NIFTY 50</option>
+<option value="NSE_INDEX|Nifty Bank">BANK NIFTY</option>
+<option value="NSE_INDEX|Nifty Fin Service">FINNIFTY</option>
+<option value="BSE_INDEX|SENSEX">SENSEX</option>
 </select>
+<input id="expiryInput" type="date" style="flex:1">
+</div>
 
-<button onclick="loadChart()">📊 LOAD CHART + SIGNAL</button>
-<div id="info" style="text-align:center;color:#aaa;font-size:12px;margin-top:5px">CHART LAST: --</div>
+<button onclick="loadChain()">📈 OPTION CHAIN LOAD KARO - PREMIUM DIKHEGA</button>
+
+<div id="chain" class="chainBox">
+<div style="text-align:center;color:#aaa">Expiry select karke Chain Load karo<br>Premium LTP ayega - ₹50, ₹20 jaisa</div>
+</div>
+
+<div id="selectedInfo" style="text-align:center;color:gold;padding:8px;border:1px dashed gold;border-radius:8px;margin:5px 0">Koi Option Select Nahi - Chain se CE/PE dabao</div>
+
+<div id="signal" class="signal HOLD">PREMIUM CHART KA SIGNAL YAHAN AYEGA</div>
+
+<div class="orderBox">
+<h3 style="color:#00ff88;text-align:center;margin:0 0 6px 0">🎮 PREMIUM ORDER - CONTROL TERE HAATH ME</h3>
+<div style="display:flex;gap:5px">
+<input id="qty" type="number" value="1" placeholder="Qty/Lot">
+<select id="product"><option value="I">Intraday</option><option value="D">Delivery</option></select>
+</div>
+<div class="orderBtns">
+<button class="btnBuy" onclick="placeOrder('BUY')">🚀 BUY PREMIUM</button>
+<button class="btnSell" onclick="placeOrder('SELL')">🔻 SELL PREMIUM</button>
+</div>
+<div id="orderStatus" style="text-align:center;color:gold;font-size:11px;margin-top:6px">Ready</div>
+</div>
+
+<button onclick="loadPremiumChart()">📊 PREMIUM KA CHART LOAD KARO - ₹50 WALA CHART</button>
 <div id="chart"></div>
 
 <script>
 let TOKEN=localStorage.getItem('upstox_token')||'';
 let chart=LightweightCharts.createChart(document.getElementById('chart'),{layout:{background:{color:'#000'},textColor:'#fff'},grid:{vertLines:{color:'#1a1a1a'},horzLines:{color:'#1a1a1a'}}});
 let candleSeries=chart.addCandlestickSeries({upColor:'#00ff88',downColor:'#ff3d3d'});
-let emaFastSeries=chart.addLineSeries({color:'yellow',lineWidth:1});
-let emaSlowSeries=chart.addLineSeries({color:'cyan',lineWidth:1});
-let emaLongSeries=chart.addLineSeries({color:'orange',lineWidth:1});
 
 let connEl=document.getElementById('conn');
-function setConn(ok,msg){connEl.innerText=msg; connEl.className= ok? 'ok':''; }
-
-if(TOKEN){ document.getElementById('tokenInput').value=TOKEN; setConn(true,"🟢 CONNECTED - Auto Live"); runLTP(); }
+function setConn(ok,msg){connEl.innerText=msg; connEl.className=ok?'ok':''}
+if(TOKEN){document.getElementById('tokenInput').value=TOKEN; setConn(true,"🟢 CONNECTED"); runLTP();}
 
 document.getElementById('saveBtn').onclick=()=>{
  let t=document.getElementById('tokenInput').value.trim();
- if(t.length<50){alert('Pura token paste kar');return}
- localStorage.setItem('upstox_token',t); TOKEN=t;
- setConn(true,"🟢 CONNECTED HO GAYA TOPU!"); runLTP();
+ if(t.length<50){alert('Pura token');return}
+ localStorage.setItem('upstox_token',t); TOKEN=t; setConn(true,"🟢 CONNECTED - PREMIUM READY"); runLTP();
 };
 
 async function runLTP(){
  if(!TOKEN) return;
  try{
-  let keys = ['NSE_INDEX|Nifty 50','NSE_INDEX|Nifty Bank','BSE_INDEX|SENSEX'].map(k=>`instrument_key=${encodeURIComponent(k)}`).join('&');
-  let url=`https://api.upstox.com/v2/market-quote/ltp?${keys}`;
-  let r=await fetch(url,{headers:{'Authorization':'Bearer '+TOKEN}});
+  let keys=['NSE_INDEX|Nifty 50','NSE_INDEX|Nifty Bank','BSE_INDEX|SENSEX'].map(k=>`instrument_key=${encodeURIComponent(k)}`).join('&');
+  let r=await fetch(`https://api.upstox.com/v2/market-quote/ltp?${keys}`,{headers:{'Authorization':'Bearer '+TOKEN}});
   let j=await r.json();
   if(j.data){
-   let n=j.data['NSE_INDEX|Nifty 50']?.last_price||'--';
-   let b=j.data['NSE_INDEX|Nifty Bank']?.last_price||'--';
-   let s=j.data['BSE_INDEX|SENSEX']?.last_price||'--';
-   document.getElementById('ltp_top').innerText=`BANK ${b} ✓ | NIFTY ${n} ✓ | SENSEX ${s} ✓`;
+   document.getElementById('ltp_top').innerText=`NIFTY ${j.data['NSE_INDEX|Nifty 50']?.last_price||'--'} | BANK ${j.data['NSE_INDEX|Nifty Bank']?.last_price||'--'} | SENSEX ${j.data['BSE_INDEX|SENSEX']?.last_price||'--'}`;
   }
  }catch(e){}
 }
 
-function calcEMA(data, period){
- if(data.length < period) return [];
- let k=2/(period+1); let ema=[]; let sum=0;
- for(let i=0;i<data.length;i++){
-  if(i<period-1){ sum+=data[i].close; ema.push(null); }
-  else if(i===period-1){ sum+=data[i].close; ema.push(sum/period); }
-  else{ ema.push(data[i].close*k + ema[i-1]*(1-k)); }
+let selectedInstrument=null;
+let selectedPremium=0;
+let selectedName='';
+
+// AUTO EXPIRY - Is Thursday
+(function setExpiry(){
+ let d=new Date(); let day=d.getDay(); let diff=(4-day+7)%7; if(diff===0) diff=7; d.setDate(d.getDate()+diff);
+ document.getElementById('expiryInput').valueAsDate=d;
+})();
+
+async function loadChain(){
+ if(!TOKEN){alert('Token dalo');return}
+ let index=document.getElementById('indexSel').value;
+ let expiry=document.getElementById('expiryInput').value;
+ if(!expiry){alert('Expiry date dalo');return}
+
+ document.getElementById('chain').innerHTML='<div style="text-align:center">Loading Chain... Premium LTP la raha hu...</div>';
+
+ try{
+  let url=`https://api.upstox.com/v2/option/chain?instrument_key=${encodeURIComponent(index)}&expiry_date=${expiry}`;
+  let r=await fetch(url,{headers:{'Authorization':'Bearer '+TOKEN}});
+  let j=await r.json();
+  console.log("Chain:",j);
+  if(!j.data || j.data.length===0){ document.getElementById('chain').innerHTML='Chain nahi mila - Expiry galat hai, Thursday ki date dalo'; return; }
+
+  // ATM ke aas paas 10 strikes dikhao
+  let niftyLTP = j.data[0]?.strike_price? 0 : 0;
+  // Nifty LTP leke ATM nikalo
+  try{
+   let ltpR=await fetch(`https://api.upstox.com/v2/market-quote/ltp?instrument_key=${encodeURIComponent(index)}`,{headers:{'Authorization':'Bearer '+TOKEN}});
+   let ltpJ=await ltpR.json();
+   niftyLTP=ltpJ.data[index]?.last_price||24500;
+  }catch(e){ niftyLTP=24500; }
+
+  let atm=Math.round(niftyLTP/50)*50;
+  let filtered=j.data.filter(o=> Math.abs(o.strike_price-atm) <= 500).slice(0,20);
+
+  let html=`<div style="display:flex;font-weight:bold;color:gold;padding:6px;border-bottom:1px solid gold"><span style="flex:1">CE PREMIUM</span><span style="flex:1;text-align:center">STRIKE</span><span style="flex:1;text-align:right">PE PREMIUM</span></div>`;
+
+  filtered.forEach(item=>{
+   let ceLtp=item.call_options?.market_data?.ltp||0;
+   let peLtp=item.put_options?.market_data?.ltp||0;
+   let ceToken=item.call_options?.instrument_key||'';
+   let peToken=item.put_options?.instrument_key||'';
+
+   html+=`<div class="strikeRow">
+    <span class="ce" onclick="selectOption('${ceToken}','${item.strike_price} CE ₹${ceLtp}','${ceLtp}')" style="flex:1;cursor:pointer">📈 ${ceLtp.toFixed(1)} ₹ - CE</span>
+    <span style="flex:1;text-align:center;font-weight:bold;color:#fff">${item.strike_price}</span>
+    <span class="pe" onclick="selectOption('${peToken}','${item.strike_price} PE ₹${peLtp}','${peLtp}')" style="flex:1;text-align:right;cursor:pointer">PE - ₹${peLtp.toFixed(1)} 📉</span>
+   </div>`;
+  });
+
+  html+=`<div style="text-align:center;color:#aaa;font-size:11px;margin-top:6px">CE pe click karo to ₹50 wala CE premium select hoga, PE pe click karo to PE premium</div>`;
+  document.getElementById('chain').innerHTML=html;
+
+ }catch(e){
+  document.getElementById('chain').innerHTML='Error: '+e;
  }
- return ema;
-}
-function calcRSI(data, period=14){
- let rsi=[]; if(data.length<=period) return rsi;
- let gains=0, losses=0;
- for(let i=1;i<=period;i++){ let d=data[i].close-data[i-1].close; if(d>=0) gains+=d; else losses-=d; }
- let avgGain=gains/period, avgLoss=losses/period;
- rsi[period]= avgLoss===0? 100 : 100-(100/(1+avgGain/avgLoss));
- for(let i=period+1;i<data.length;i++){
-  let d=data[i].close-data[i-1].close; let gain=d>0?d:0, loss=d<0?-d:0;
-  avgGain=(avgGain*(period-1)+gain)/period; avgLoss=(avgLoss*(period-1)+loss)/period;
-  rsi[i]= avgLoss===0?100:100-(100/(1+avgGain/avgLoss));
- }
- return rsi;
 }
 
-async function loadChart(){
- if(!TOKEN){alert('Pehle CONNECT karo');return}
+function selectOption(token, name, premium){
+ if(!token){alert('Is strike ka premium nahi hai');return}
+ selectedInstrument=token;
+ selectedPremium=parseFloat(premium);
+ selectedName=name;
+ document.getElementById('selectedInfo').innerHTML=`✅ SELECTED: <b>${name}</b><br>Instrument: ${token}<br>Premium LTP: ₹${premium} - Iska chart aur order lagega`;
+ document.getElementById('orderStatus').innerText=`Ready: ${name} - Premium ₹${premium} - Qty se order lagega`;
 
- // YAHAN SE VALUE CHANGE HOGI
- let fast = parseInt(document.getElementById('emaFastInput').value) || 9;
- let slow = parseInt(document.getElementById('emaSlowInput').value) || 21;
- let long = parseInt(document.getElementById('emaLongInput').value) || 50;
- let rsiPeriod = parseInt(document.getElementById('rsiInput').value) || 14;
+ // Auto chart load
+ loadPremiumChart();
+}
 
- document.getElementById('labelFast').innerText=fast;
- document.getElementById('labelSlow').innerText=slow;
- document.getElementById('labelLong').innerText=long;
- document.getElementById('labelRsi').innerText=rsiPeriod;
+async function loadPremiumChart(){
+ if(!selectedInstrument){alert('Pehle Chain se CE ya PE ka Premium select karo - ₹50 wala');return}
+ if(!TOKEN){alert('Token dalo');return}
 
- let inst=document.getElementById('mainSel').value;
- let name=document.getElementById('mainSel').selectedOptions[0].text;
- let url=`https://api.upstox.com/v2/historical-candle/intraday/${encodeURIComponent(inst)}/1minute`;
+ let url=`https://api.upstox.com/v2/historical-candle/intraday/${encodeURIComponent(selectedInstrument)}/1minute`;
 
- document.getElementById('info').innerText=`Loading ${name} with EMA ${fast}/${slow}/${long}...`;
+ document.getElementById('signal').innerText=`Loading ${selectedName} Premium Chart... ₹${selectedPremium} wala`;
+
  try{
   let r=await fetch(url,{headers:{'Authorization':'Bearer '+TOKEN}});
   let j=await r.json();
+  console.log("Premium Chart:",j);
   if(j.data && j.data.candles && j.data.candles.length>0){
    let data=j.data.candles.reverse().map(c=>({time:new Date(c[0]).getTime()/1000,open:c[1],high:c[2],low:c[3],close:c[4]}));
-   candleSeries.setData([]); emaFastSeries.setData([]); emaSlowSeries.setData([]); emaLongSeries.setData([]);
    candleSeries.setData(data);
    chart.timeScale().fitContent();
-
-   let emaF=calcEMA(data,fast);
-   let emaS=calcEMA(data,slow);
-   let emaL=calcEMA(data,long);
-   let rsi=calcRSI(data,rsiPeriod);
-
-   let lineF=[], lineS=[], lineL=[];
-   for(let i=0;i<data.length;i++){
-    if(emaF[i]) lineF.push({time:data[i].time,value:emaF[i]});
-    if(emaS[i]) lineS.push({time:data[i].time,value:emaS[i]});
-    if(emaL[i]) lineL.push({time:data[i].time,value:emaL[i]});
-   }
-   emaFastSeries.setData(lineF);
-   emaSlowSeries.setData(lineS);
-   emaLongSeries.setData(lineL);
-
    let last=data[data.length-1];
-   let lf=emaF[data.length-1], ls=emaS[data.length-1], ll=emaL[data.length-1], lr=rsi[data.length-1];
-
-   document.getElementById('ema9').innerText=lf?lf.toFixed(2):'--';
-   document.getElementById('ema21').innerText=ls?ls.toFixed(2):'--';
-   document.getElementById('emaLong').innerText=ll?ll.toFixed(2):'--';
-   document.getElementById('rsi').innerText=lr?lr.toFixed(1):'--';
-   document.getElementById('info').innerText=`LAST: ${last.close} | EMA ${fast}/${slow}/${long} | RSI ${lr?.toFixed(1)} | ${name}`;
-
-   let sigEl=document.getElementById('signal');
-   if(lf && ls){
-    if(lf > ls && lf > ll && lr < 70){
-     sigEl.className='signal BUY';
-     sigEl.innerText=`🚀 BUY - ${name} - EMA ${fast}>${slow}>${long} | RSI ${lr.toFixed(0)}`;
-    }else if(lf < ls){
-     sigEl.className='signal SELL';
-     sigEl.innerText=`🔻 SELL - ${name} - EMA ${fast}<${slow} | RSI ${lr.toFixed(0)}`;
-    }else{
-     sigEl.className='signal HOLD';
-     sigEl.innerText=`⏸️ HOLD - ${name} - Sideways | RSI ${lr?.toFixed(0)}`;
-    }
-   }
-  }else{ alert('Data nahi: '+JSON.stringify(j).slice(0,400)); }
- }catch(e){ alert('Error: '+e); }
+   document.getElementById('signal').className='signal BUY';
+   document.getElementById('signal').innerText=`🚀 PREMIUM CHART: ${selectedName} - LAST PREMIUM ₹${last.close} | Abhi ka Premium: ₹${selectedPremium}`;
+  }else{
+   document.getElementById('signal').innerText=`No chart data: ${JSON.stringify(j).slice(0,200)}`;
+  }
+ }catch(e){ alert(e); }
 }
+
+async function placeOrder(side){
+ if(!selectedInstrument){alert('Pehle Chain se Premium select karo');return}
+ if(!TOKEN){alert('Token dalo');return}
+ let qty=parseInt(document.getElementById('qty').value)||1;
+ if(!confirm(`${side} ${selectedName} @ Premium ₹${selectedPremium} Qty ${qty}?`)) return;
+
+ document.getElementById('orderStatus').innerText=`Placing ${side} ${selectedName}...`;
+
+ let body={
+  quantity: qty,
+  product: document.getElementById('product').value,
+  validity: "DAY",
+  price: 0,
+  tag: "TOPU_PREMIUM",
+  instrument_token: selectedInstrument,
+  order_type: "MARKET",
+  transaction_type: side,
+  disclosed_quantity: 0,
+  trigger_price: 0,
+  is_amo: false
+ };
+
+ try{
+  let r=await fetch('https://api.upstox.com/v2/order/place',{
+   method:'POST',
+   headers:{'Authorization':'Bearer '+TOKEN,'Content-Type':'application/json'},
+   body: JSON.stringify(body)
+  });
+  let j=await r.json();
+  console.log(j);
+  if(j.status==='success' || j.data?.order_id){
+   document.getElementById('orderStatus').innerText=`✅ ORDER SUCCESS ID: ${j.data.order_id} - ${selectedName} @ ₹${selectedPremium}`;
+   alert(`Order Lag Gaya Topu! ${selectedName} @ ₹${selectedPremium} ID: ${j.data.order_id}`);
+  }else{
+   document.getElementById('orderStatus').innerText=`❌ FAIL: ${JSON.stringify(j).slice(0,250)}`;
+   alert(JSON.stringify(j));
+  }
+ }catch(e){ document.getElementById('orderStatus').innerText=`❌ ERROR ${e}`; }
+}
+
 setInterval(runLTP,5000);
 </script>
 </body>
