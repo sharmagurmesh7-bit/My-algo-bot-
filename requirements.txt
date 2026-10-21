@@ -1,0 +1,9 @@
+streamlit==1.39.0
+upstox-python-sdk==2.8.0
+pandas==2.2.3
+numpy==1.26.4
+python-dotenv==1.0.1
+requests==2.32.3
+websocket-client==1.7.0
+protobuf==5.28.3
+pytz==2024.2
